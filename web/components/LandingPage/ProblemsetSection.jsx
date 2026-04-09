@@ -130,7 +130,7 @@ export default function ProblemsetSection() {
         {/* BUTTON */}
         <div className="mt-6 flex justify-center">
           <button
-            className="w-full sm:w-auto mono text-sm px-6 sm:px-8 py-3 clip-corner font-medium border"
+            className="w-full sm:w-auto mono text-sm px-6 sm:px-8 py-3 clip-corner font-medium border rounded-sm"
             style={{
               borderColor: "#d1d5db",
               color: "#374151",

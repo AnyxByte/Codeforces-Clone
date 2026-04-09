@@ -64,22 +64,14 @@ export default function Navbar() {
 
         {/* Right */}
         <div className="flex items-center gap-3 ml-auto">
-          <button
-            className="mono text-xs font-medium px-4 py-2 transition-all duration-200 clip-corner-sm"
-            style={{
-              border: "1px solid #d1d5db",
-              color: "#374151",
-              background: "transparent",
-            }}
-          >
-            Login
-          </button>
-          <button
-            className="mono text-xs font-semibold px-4 py-2 text-white clip-corner-sm transition-all duration-200"
-            style={{ background: "#e8462a" }}
-          >
-            Register
-          </button>
+          <Link href="/auth">
+            <button
+              className="mono text-xs cursor-pointer rounded-sm px-4 py-2 transition-all duration-200 clip-corner-sm text-white font-semibold"
+              style={{ background: "#e8462a" }}
+            >
+              Get Started
+            </button>
+          </Link>
         </div>
       </div>
     </nav>
