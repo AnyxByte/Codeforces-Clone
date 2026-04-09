@@ -22,133 +22,117 @@ export default function ProblemsetSection() {
 
   return (
     <section
-      className="py-20 grid-bg relative"
+      className="py-12 sm:py-16 lg:py-20 grid-bg relative"
       style={{ background: "#f5f5f7" }}
     >
-      <div className="max-w-325 mx-auto px-6">
-        <div className="flex items-end justify-between mb-10">
-          <div>
-            <h2
-              className="font-bold text-4xl text-[#111118]"
-              style={{ fontFamily: "'Syne', sans-serif" }}
-            >
-              Recent Problems
-            </h2>
-          </div>
-          <div className="hidden sm:flex items-center gap-3">
-            <input
-              type="text"
-              placeholder="Search problems..."
-              value={search}
-              onChange={(e) => setSearch(e.target.value)}
-              className="mono text-xs px-4 py-2 rounded-lg outline-none text-[#111118]"
-              style={{
-                background: "#fff",
-                border: "1px solid #e5e7eb",
-                width: 200,
-                boxShadow: "0 1px 3px rgba(0,0,0,0.06)",
-              }}
-              onFocus={(e) => (e.target.style.borderColor = "#2563eb")}
-              onBlur={(e) => (e.target.style.borderColor = "#e5e7eb")}
-            />
-          </div>
+      <div className="max-w-[1300px] mx-auto px-4 sm:px-6">
+        
+        {/* HEADER */}
+        <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 mb-8 sm:mb-10">
+          
+          <h2
+            className="font-bold text-2xl sm:text-3xl lg:text-4xl text-[#111118]"
+            style={{ fontFamily: "'Syne', sans-serif" }}
+          >
+            Recent Problems
+          </h2>
+
+          {/* SEARCH (visible on mobile now) */}
+          <input
+            type="text"
+            placeholder="Search problems..."
+            value={search}
+            onChange={(e) => setSearch(e.target.value)}
+            className="w-full sm:w-[220px] mono text-xs px-4 py-2 rounded-lg outline-none text-[#111118]"
+            style={{
+              background: "#fff",
+              border: "1px solid #e5e7eb",
+              boxShadow: "0 1px 3px rgba(0,0,0,0.06)",
+            }}
+          />
         </div>
 
-        <div
-          className="rounded-xl overflow-hidden"
-          style={{
-            background: "#fff",
-            border: "1px solid #e5e7eb",
-            boxShadow: "0 1px 8px rgba(0,0,0,0.05)",
-          }}
-        >
-          {/* Table header */}
+        {/* TABLE WRAPPER (KEY FIX) */}
+        <div className="w-full overflow-x-auto">
           <div
-            className="grid grid-cols-12 gap-4 px-5 py-3 mono text-xs font-semibold"
+            className="min-w-[700px] rounded-xl overflow-hidden"
             style={{
-              color: "#9ca3af",
-              borderBottom: "1px solid #f3f4f6",
-              background: "#f9fafb",
+              background: "#fff",
+              border: "1px solid #e5e7eb",
+              boxShadow: "0 1px 8px rgba(0,0,0,0.05)",
             }}
           >
-            <div className="col-span-1">#</div>
-            <div className="col-span-5">Problem</div>
-            <div className="col-span-2">Rating</div>
-            <div className="col-span-3">Tags</div>
-            <div className="col-span-1 text-right">Solved</div>
-          </div>
+            {/* HEADER */}
+            <div className="grid grid-cols-12 gap-4 px-4 sm:px-5 py-3 mono text-xs font-semibold text-gray-400 bg-gray-50 border-b">
+              <div className="col-span-1">#</div>
+              <div className="col-span-5">Problem</div>
+              <div className="col-span-2">Rating</div>
+              <div className="col-span-3">Tags</div>
+              <div className="col-span-1 text-right">Solved</div>
+            </div>
 
-          {filtered.map((p, i) => (
-            <div
-              key={p.id}
-              className="grid grid-cols-12 gap-4 px-5 py-4 cursor-pointer transition-all duration-150"
-              style={{
-                borderBottom:
-                  i < filtered.length - 1 ? "1px solid #f3f4f6" : "none",
-                background: hoveredId === p.id ? "#fafafa" : "#fff",
-              }}
-            >
+            {/* ROWS */}
+            {filtered.map((p, i) => (
               <div
-                className="col-span-1 mono text-xs"
-                style={{ color: "#d1d5db" }}
+                key={p.id}
+                onMouseEnter={() => setHoveredId(p.id)}
+                onMouseLeave={() => setHoveredId(null)}
+                className="grid grid-cols-12 gap-4 px-4 sm:px-5 py-3 sm:py-4 cursor-pointer transition"
+                style={{
+                  borderBottom:
+                    i < filtered.length - 1 ? "1px solid #f3f4f6" : "none",
+                  background: hoveredId === p.id ? "#fafafa" : "#fff",
+                }}
               >
-                {String(i + 1).padStart(2, "0")}
-              </div>
-              <div className="col-span-5">
-                <div className="flex items-center gap-2">
+                <div className="col-span-1 mono text-xs text-gray-300">
+                  {String(i + 1).padStart(2, "0")}
+                </div>
+
+                <div className="col-span-5">
+                  <div className="flex items-center gap-2">
+                    <span className="mono text-[10px] sm:text-xs px-1.5 py-0.5 rounded bg-gray-100 border text-gray-500">
+                      {p.id}
+                    </span>
+                    <span className="text-xs sm:text-sm font-medium text-[#111118]">
+                      {p.name}
+                    </span>
+                  </div>
+                </div>
+
+                <div className="col-span-2">
                   <span
-                    className="mono text-xs px-1.5 py-0.5 rounded"
-                    style={{
-                      background: "#f3f4f6",
-                      color: "#6b7280",
-                      border: "1px solid #e5e7eb",
-                    }}
+                    className="mono text-xs sm:text-sm font-bold"
+                    style={{ color: diffColor(p.rating) }}
                   >
-                    {p.id}
-                  </span>
-                  <span className="text-sm font-medium text-[#111118]">
-                    {p.name}
+                    {p.rating}
                   </span>
                 </div>
+
+                <div className="col-span-3 flex flex-wrap gap-1">
+                  {p.tags.slice(0, 2).map((t) => (
+                    <span
+                      key={t}
+                      className="mono text-[10px] sm:text-xs px-2 py-0.5 rounded bg-gray-100 border text-gray-500"
+                    >
+                      {t}
+                    </span>
+                  ))}
+                </div>
+
+                <div className="col-span-1 text-right mono text-xs text-gray-500">
+                  {p.solvers.toLocaleString()}
+                </div>
               </div>
-              <div className="col-span-2">
-                <span
-                  className="mono text-sm font-bold"
-                  style={{ color: diffColor(p.rating) }}
-                >
-                  {p.rating}
-                </span>
-              </div>
-              <div className="col-span-3 flex flex-wrap gap-1">
-                {p.tags.slice(0, 2).map((t) => (
-                  <span
-                    key={t}
-                    className="mono text-xs px-2 py-0.5 rounded-sm"
-                    style={{
-                      background: "#f3f4f6",
-                      color: "#6b7280",
-                      border: "1px solid #e5e7eb",
-                    }}
-                  >
-                    {t}
-                  </span>
-                ))}
-              </div>
-              <div
-                className="col-span-1 text-right mono text-xs font-medium"
-                style={{ color: "#6b7280" }}
-              >
-                {p.solvers.toLocaleString()}
-              </div>
-            </div>
-          ))}
+            ))}
+          </div>
         </div>
 
+        {/* BUTTON */}
         <div className="mt-6 flex justify-center">
           <button
-            className="mono text-sm px-8 py-3 clip-corner transition-all duration-200 font-medium"
+            className="w-full sm:w-auto mono text-sm px-6 sm:px-8 py-3 clip-corner font-medium border"
             style={{
-              border: "1px solid #d1d5db",
+              borderColor: "#d1d5db",
               color: "#374151",
               background: "#fff",
             }}
